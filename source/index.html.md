@@ -197,7 +197,7 @@ userid | The logged in User ID
 ## Get Fillups
 
 ```shell
-curl "https://mpg.3dx2.com/selectAllFillUps.php"
+curl "https://mpg.3dx2.com/selectAllFillUps.php" -H "Accept: application/json"
 ```
 
 > The above command returns JSON structured like this:
