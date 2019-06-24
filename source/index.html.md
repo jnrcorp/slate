@@ -193,3 +193,87 @@ Parameter | Description
 --------- | -----------
 fillupid | The ID of the fill up being updated
 userid | The logged in User ID
+
+## Get Fillups
+
+```shell
+curl "https://mpg.3dx2.com/selectAllFillUps.php"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "miles": "308.0",
+    "gallons": "10.826",
+    "fill_up_date": "2019-06-15 21:52:36",
+    "id": 62615,
+    "price_per_gal": "2.679",
+    "odometer": "14028.0",
+    "note": null,
+    "fill_up_date_epoch": 1560660756
+  },
+  {
+    "miles": "280.0",
+    "gallons": "10.874",
+    "fill_up_date": "2019-06-03 18:16:56",
+    "id": 62338,
+    "price_per_gal": "2.759",
+    "odometer": "13720.0",
+    "note": null,
+    "fill_up_date_epoch": 1559611016
+  }
+]
+```
+
+This provides all fill ups.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/selectAllFillUps.php`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+userid | The logged in User ID
+ascdesc | Enum - `asc` or `desc`
+vehicleid | The system ID for the vehicle
+
+## Get Fillups for All Vehicles
+
+```shell
+curl "https://mpg.3dx2.com/selectAllFillUpsAllVehicles.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "vehicleid": 1,
+    "miles": "232.0",
+    "gallons": "11.000",
+    "fill_up_date": "2011-04-16 00:00:00",
+    "id": 244,
+    "price_per_gal": null,
+    "odometer": null,
+    "note": null,
+    "fill_up_date_epoch": 1302937200
+  }
+]
+```
+
+This provides all fill ups for all vehicles in an account.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/selectAllFillUpsAllVehicles.php`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+userid | The logged in User ID
+ascdesc | Enum - `asc` or `desc`
