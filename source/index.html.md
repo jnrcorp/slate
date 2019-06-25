@@ -348,3 +348,131 @@ locationPerformed | Midas | `user provided`
 cost | Price of the | 123.21
 odometerReading | 31492 | odometer mileage at service date
 date | 2019-06-24 21:23:00 | Date in YYYY-MM-dd HH:mm:ss format
+
+## Delete Automobile Maintainence Event
+
+```shell
+curl "https://mpg.3dx2.com/deleteService.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status":true
+}
+```
+
+This provides all fill ups for all vehicles in an account.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/deleteService.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 101 | The logged in User ID
+serviceId | 101 | The system ID of the service
+
+## Delete All Automobile Maintainence Event
+
+```shell
+curl "https://mpg.3dx2.com/deleteServices.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status":true
+}
+```
+
+This provides all fill ups for all vehicles in an account.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/deleteServices.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 101 | The logged in User ID
+vehicleid | 101 | The system ID for the vehicle
+
+## Get Maintainence for Specifc Vehicle
+
+```shell
+curl "https://mpg.3dx2.com/selectAllServices.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[  
+   {  
+      "service_performed":"New Brakes",
+      "mileage":"31492.0",
+      "service_date":"2019-06-24",
+      "id":4231,
+      "cost":"390.23",
+      "location_performed":"Dealer",
+      "service_date_epoch":1561359600,
+      "description":"Brakes"
+   }
+]
+```
+
+This provides all fill ups for all vehicles in an account.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/selectAllServices.php`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+userid | The logged in User ID
+ascdesc | Enum - `asc` or `desc`
+vehicleid | Vehicle ID
+
+## Get Maintainence for All Vehicles
+
+```shell
+curl "https://mpg.3dx2.com/selectAllServicesAllVehicles.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[  
+   {  
+      "vehicleid":12883,
+      "service_performed":"New Brakes",
+      "mileage":"31492.0",
+      "service_date":"2019-06-24",
+      "id":4231,
+      "cost":"390.23",
+      "location_performed":"Dealer",
+      "service_date_epoch":1561359600,
+      "description":"Brakes"
+   }
+]
+```
+
+This provides all fill ups for all vehicles in an account.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/selectAllServices.php`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+userid | The logged in User ID
+ascdesc | Enum - `asc` or `desc`
