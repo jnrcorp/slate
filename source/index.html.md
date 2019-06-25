@@ -277,3 +277,46 @@ Parameter | Description
 --------- | -----------
 userid | The logged in User ID
 ascdesc | Enum - `asc` or `desc`
+
+## Insert Automobile Maintainence Event
+
+```shell
+curl "https://mpg.3dx2.com/insertService.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "vehicleid": 1,
+    "miles": "232.0",
+    "gallons": "11.000",
+    "fill_up_date": "2011-04-16 00:00:00",
+    "id": 244,
+    "price_per_gal": null,
+    "odometer": null,
+    "note": null,
+    "fill_up_date_epoch": 1302937200
+  }
+]
+```
+
+This provides all fill ups for all vehicles in an account.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/insertService.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 101 | The logged in User ID
+vehicleid | 101 | The system ID for the vehicle
+servicePerformed | Oil Change | The type of maintainence completed - `user provided`
+description | Replaced the oil | 
+locationPerformed | 
+cost | Price of the 
+odometerReading | 
+date | 
