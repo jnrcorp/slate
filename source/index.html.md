@@ -100,6 +100,8 @@ email | yes | User's email address
 password | yes | User's Password
 name | yes | User's Full Name
 
+# Fill Ups
+
 ## Insert Fill Up
 
 ```shell
@@ -278,6 +280,8 @@ Parameter | Description
 userid | The logged in User ID
 ascdesc | Enum - `asc` or `desc`
 
+# Maintainence
+
 ## Insert Automobile Maintainence Event
 
 ```shell
@@ -287,19 +291,9 @@ curl "https://mpg.3dx2.com/insertService.php" -H "Accept: application/json"
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "vehicleid": 1,
-    "miles": "232.0",
-    "gallons": "11.000",
-    "fill_up_date": "2011-04-16 00:00:00",
-    "id": 244,
-    "price_per_gal": null,
-    "odometer": null,
-    "note": null,
-    "fill_up_date_epoch": 1302937200
-  }
-]
+{
+  "status":true
+}
 ```
 
 This provides all fill ups for all vehicles in an account.
@@ -315,8 +309,42 @@ Parameter | Example | Description
 userid | 101 | The logged in User ID
 vehicleid | 101 | The system ID for the vehicle
 servicePerformed | Oil Change | The type of maintainence completed - `user provided`
-description | Replaced the oil | 
-locationPerformed | 
-cost | Price of the 
-odometerReading | 
-date | 
+description | Replaced the oil | `user provided`
+locationPerformed | Midas | `user provided`
+cost | Price of the | 123.21
+odometerReading | 31492 | odometer mileage at service date
+date | 2019-06-24 21:23:00 | Date in YYYY-MM-dd HH:mm:ss format
+
+## Update Automobile Maintainence Event
+
+```shell
+curl "https://mpg.3dx2.com/updateService.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status":true
+}
+```
+
+This provides all fill ups for all vehicles in an account.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/updateService.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 101 | The logged in User ID
+vehicleid | 101 | The system ID for the vehicle
+serviceId | 101 | The system ID of the service
+servicePerformed | Oil Change | The type of maintainence completed - `user provided`
+description | Replaced the oil | `user provided`
+locationPerformed | Midas | `user provided`
+cost | Price of the | 123.21
+odometerReading | 31492 | odometer mileage at service date
+date | 2019-06-24 21:23:00 | Date in YYYY-MM-dd HH:mm:ss format
