@@ -280,6 +280,40 @@ Parameter | Description
 userid | The logged in User ID
 ascdesc | Enum - `asc` or `desc`
 
+## Get Most Recent Fillup
+
+```shell
+curl "https://mpg.3dx2.com/selectMostRecentFillUp.php?userid=1000000001" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{  
+   "miles":"315.0",
+   "gallons":"10.098",
+   "fill_up_date":"2019-06-23 20:29:59",
+   "id":62784,
+   "price_per_gal":"2.639",
+   "odometer":"69393.0",
+   "note":null,
+   "fill_up_date_epoch":1561346999
+}
+```
+
+This provides the most recent fill up for a vehicle. If the vehicle ID is not provided, it'll load the default vehicle ID.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/selectMostRecentFillUp.php`
+
+### URL Parameters
+
+Parameter | Required | Description
+--------- | -------- | -----------
+userid | Yes | The logged in User ID
+vehicleid | No | The ID of the vehicle. If not provided, pulls for default vehicle
+
 # Maintainence
 
 ## Insert Automobile Maintainence Event
@@ -476,3 +510,66 @@ Parameter | Description
 --------- | -----------
 userid | The logged in User ID
 ascdesc | Enum - `asc` or `desc`
+
+# Vehicle Settings
+
+## Insert/Update Mileage
+
+```shell
+curl "https://mpg.3dx2.com/insertUpdateMileage.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status":true
+}
+```
+
+Inserts or updates the mileage for a vehicle.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/insertUpdateMileage.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 1000000001 | The logged in User ID
+defaultFillUpMode | tripometer | Enum `tripometer` / `odometer`
+mode | mpg | Enum `mpg` / `kpg` / `kpl`
+nextOilChange | 3000.0 | Mileage of next oil change
+odometer | 1150.0 | Odometer reading at last fill up
+oilChangeDuration | 3000 | The # of miles between oil changes
+vehicleId | 12883 | The id of the vehicle
+
+# Android Management
+
+## Remove Ads
+
+```shell
+curl "https://mpg.3dx2.com/removeAds.php?userid=1000000001&removeAds=true" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status":true
+}
+```
+
+Tracks when a user removes ads.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/removeAds.php`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+userid | The logged in User ID
+removeAds | Boolean
