@@ -511,7 +511,7 @@ Parameter | Description
 userid | The logged in User ID
 ascdesc | Enum - `asc` or `desc`
 
-# Vehicle Settings
+# Vehicle Management
 
 ## Insert/Update Mileage
 
