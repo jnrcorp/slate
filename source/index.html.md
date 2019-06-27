@@ -545,6 +545,229 @@ odometer | 1150.0 | Odometer reading at last fill up
 oilChangeDuration | 3000 | The # of miles between oil changes
 vehicleId | 12883 | The id of the vehicle
 
+## Insert Vehicle
+
+```shell
+curl "https://mpg.3dx2.com/insertVehicle.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{  
+   "status":"true",
+   "vehicleId":"13186"
+}
+```
+
+Inserts or updates the mileage for a vehicle.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/insertVehicle.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 1000000001 | The logged in User ID
+name | Test card 2 | User chosen name for the vehicle
+make | Honda | The vehicle manufacturer
+model | CR-V | The model of the vehicle
+
+## Update Vehicle
+
+```shell
+curl "https://mpg.3dx2.com/updateVehicle.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{  
+   "status":"true"
+}
+```
+
+Inserts or updates the mileage for a vehicle.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/updateVehicle.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 1000000001 | The logged in User ID
+vehicleid | 101 | System ID for vehicle
+name | Test card 2 | User chosen name for the vehicle
+make | Honda | The vehicle manufacturer
+model | CR-V | The model of the vehicle
+
+## Delete Vehicle
+
+```shell
+curl "https://mpg.3dx2.com/deleteVehicle.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{  
+   "status":"true"
+}
+```
+
+Inserts or updates the mileage for a vehicle.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/deleteVehicle.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 1000000001 | The logged in User ID
+vehicleid | 101 | System ID for vehicle
+deleted | 1 | 1 for deleted, 0 for not deleted
+
+## Get Vehicle
+
+```shell
+curl "https://mpg.3dx2.com/getVehicle.php?vehicleid=12883&userid=1000000001" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+ {  
+   "id":12883,
+   "name":"Test Car",
+   "make":"",
+   "model":"",
+   "odometer":"1150.0",
+   "next_oil_change":"3000.0",
+   "oil_change_duration":3000,
+   "display_units":"mpg",
+   "default_fill_up_mode":"tripometer",
+   "default_vehicle":0
+}
+```
+
+Gets vehicle for a user.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/getVehicle.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 1000000001 | The logged in User ID
+
+## Get Vehicles
+
+```shell
+curl "https://mpg.3dx2.com/getVehicles.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+   {
+      "id":12883,
+      "name":"Test Car",
+      "make":"",
+      "model":"",
+      "odometer":"1150.0",
+      "next_oil_change":"3000.0",
+      "oil_change_duration":3000,
+      "display_units":"mpg",
+      "default_fill_up_mode":"tripometer",
+      "default_vehicle":0
+   },
+   {
+      "id":13187,
+      "name":"Test CArd 2",
+      "make":"asdv",
+      "model":"asd",
+      "odometer":"32.0",
+      "next_oil_change":"2000.0",
+      "oil_change_duration":1233,
+      "display_units":"mpg",
+      "default_fill_up_mode":"tripometer",
+      "default_vehicle":0
+   }
+]
+```
+
+Gets all vehicles for a user.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/getVehicles.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 1000000001 | The logged in User ID
+
+## Get Default Vehicle
+
+```shell
+curl "https://mpg.3dx2.com/getDefaultVehicle.php?userid=1000000001" -H "Accept: application/json"
+```
+
+> The above command returns plain text:
+
+```text
+12883
+```
+
+Gets default vehicle for a user.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/getDefaultVehicle.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 1000000001 | The logged in User ID
+
+## Set Default Vehicle
+
+```shell
+curl "https://mpg.3dx2.com/setDefaultVehicle.php?userid=1000000001&vehicleid=9326" -H "Accept: application/json"
+```
+
+> The above command returns JSON:
+
+```json
+ {
+   "status":true
+ }
+```
+
+Sets default vehicle for a user.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/setDefaultVehicle.php`
+
+### URL Parameters
+
+Parameter | Example | Description
+--------- | ------- | -----------
+userid | 1000000001 | The logged in User ID
+vehicleid | 101 | System ID for vehicle
+
 # Android Management
 
 ## Remove Ads
@@ -573,3 +796,30 @@ Parameter | Description
 --------- | -----------
 userid | The logged in User ID
 removeAds | Boolean
+
+## Insert Error
+
+```shell
+curl "https://mpg.3dx2.com/insertError.php" -H "Accept: application/json"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status":true
+}
+```
+
+Tracks when a user removes ads.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/insertError.php`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+errorFrom | The place the error occurred
+errorDetails | The stacktrace details
