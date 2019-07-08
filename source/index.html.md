@@ -17,88 +17,225 @@ search: true
 
 Welcome to the MPG Tracker API!
 
-# Login
+# Authentication
 
-## Website Login
+THere are 3 ways to gain access to an account within MPG Tracker:
 
-Performs system login for a user.
+1. Provide an email/password combo.
+2. Provide the JWT from Google Sign-In.
+3. Create a new account.
+
+## User Authentication
+
+Performs login for a user.
 
 ```shell
-curl "https://mpg.3dx2.com/websiteLogin.php?email=$EMAIL&password=$PASSWORD"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{  
-   "data":{  
-      "userId":"1000000001",
-      "vehicleId":9326,
-      "userName":"Joshua"
-   }
-}
+curl -X POST \
+  -H "Accept: application/json" \
+  --data '{"email":"xyz","password":"xyz"}' \
+  "https://mpg.3dx2.com/api/authenticate.php"
 ```
 
 ### HTTP Request
 
-`GET https://mpg.3dx2.com/websiteLogin.php`
+`POST https://mpg.3dx2.com/api/authenticate.php `
 
-### Query Parameters
+### Request body
+
+> An example of the request body
+
+```json
+{
+  "email": "test@email.com",
+  "pssword": "SomePassword"
+}
+```
 
 Parameter | Required | Description
 --------- | -------- | -----------
 email | yes | User's email address
 password | yes | User's Password
 
-This endpoint performs a login with the username and password
+> A successful response will look like this:
+
+```json
+{
+  "data": {
+    "userId":100001,
+    "userToken":"some-large-entropy-response",
+    "vehicleId":1,
+    "fullName":"John Doe",
+    "removeAds":1
+  }
+}
+```
+
+> A failed response will look like this:
+
+```json
+{
+  "error": "Invalid Email or Password"
+}
+```
+
+### Response Body
+
+Variable | Type | Nullable | Description
+-------- | ---- | -------- | -----------
+userId | Integer | No | A unique identifier for use with Google Analytics
+userToken | String | No | A very long unique session tokenize
+vehicleId | Integer | No | The default vehicle for this user
+fullName | String | Yes | The user's full name if they provided it
+removeAds | Boolean | No | Whether the user has removed ads in the app
+
+> This endpoint performs a login with the username and password
 
 <aside class="notice">
 You must replace <code>email</code> and <code>password</code> with the appropriate combo.
 </aside>
 
-## Create User
-
-Creates a new user in the system.
-
-### HTTP Request
-
-`GET https://mpg.3dx2.com/createuser.php`
-
-### Query Parameters
-
-Parameter | Required | Description
---------- | -------- | -----------
-email | yes | User's email address
-password | yes | User's Password
-name | yes | User's Full Name
-
-## Auto Create User
+## Google Sign-In
 
 ```shell
-curl "https://mpg.3dx2.com/autoCreateUser.php?email=$EMAIL&name=$FULL_NAME&password=$PASSWORD"
-```
-
-> The above command returns pipe delimited data like this:
-
-```
-1000000001|Joshua|mpg|joshua.ross@gmail.com|1
+curl -X POST -H "Accept: application/json" \
+  --data '{"email":"xyz","name":"John Doe","token":"some-entropy"}'\
+  "https://mpg.3dx2.com/api/authenticateGoogle.php"
 ```
 
 This endpoint retrieves user data.
 
-<aside class="warning">This call responds with pipe delimited data, not JSON.</aside>
+<aside class="warning">This will create a new user if one does not exist and retieve the existing one if it does.</aside>
 
 ### HTTP Request
 
-`GET https://mpg.3dx2.com/autoCreateUser.php`
+`GET https://mpg.3dx2.com/api/authenticateGoogle.php`
 
-### Query Parameters
+### Request Body
 
 Parameter | Required | Description
 --------- | -------- | -----------
 email | yes | User's email address
-password | yes | User's Password
+name | yes | The full name of the user
+token | yes | The Google JWT proving
+
+### Response Body
+
+> A successful response will look like this:
+
+```json
+{
+  "data": {
+    "userId":100001,
+    "userToken":"some-large-entropy-response",
+    "vehicleId":1,
+    "fullName":"John Doe",
+    "removeAds":1
+  }
+}
+```
+
+> A failed response will look like this:
+
+```json
+{
+  "error": "Invalid Email or Password"
+}
+```
+
+Variable | Type | Nullable | Description
+-------- | ---- | -------- | -----------
+userId | Integer | No | A unique identifier for use with Google Analytics
+userToken | String | No | A very long unique session tokenize
+vehicleId | Integer | No | The default vehicle for this user
+fullName | String | No | The user's full name
+removeAds | Boolean | No | Whether the user has removed ads in the app
+
+## Create User
+
+Creates a new user in the system.
+
+```shell
+curl -X POST \
+  -H "Accept: application/json" \
+  --data $BODY_JSON \
+  "https://mpg.3dx2.com/api/userRegister.php"
+```
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/api/userRegister.php`
+
+### Request Body
+
+```json
+{
+  "email":"test@email.com",
+  "password0":"password",
+  "password1":"password",
+  "name":"John Doe",
+  "captcha":"<some-token",
+  "source":"android"
+}
+```
+
+Parameter | Required | Description
+--------- | -------- | -----------
+email | yes | User's email address
+password0 | yes | User's Password
+password1 | yes | User's Password Confirmed
 name | yes | User's Full Name
+captcha | yes | The token provided by the captcha response
+source | yes | ENUM: `website` or `android` (to indcate which private captcha key should be used)
+
+### Response Body
+
+> A successful response will look like this:
+
+```json
+{
+  "data": {
+    "userId":100001,
+    "userToken":"some-large-entropy-response",
+    "vehicleId":1,
+    "fullName":"John Doe",
+    "removeAds":1
+  }
+}
+```
+
+Variable | Type | Nullable | Description
+-------- | ---- | -------- | -----------
+userId | Integer | No | A unique identifier for use with Google Analytics
+userToken | String | No | A very long unique session tokenize
+vehicleId | Integer | No | The default vehicle for this user
+fullName | String | No | The user's full name
+removeAds | Boolean | No | Whether the user has removed ads in the app
+
+> A failed response will return something like this:
+
+```json
+{
+  "error": "dupe|vehicle|captchaFail|pwmismatch"
+}
+```
+
+Variable | Type | Nullable | Description
+-------- | ---- | -------- | -----------
+error | String | No | `Enum` dupe, vehicle, captchaFail, pwmismatch
+
+# Authorization
+
+All API calls after login require the user token provided from the authentication API call to be included in the header, <code>X-Authorization</code>.
+
+```shell
+curl "api_endpoint_here" -H "X-Authorization: the-provided-user-token"
+```
+
+> Make sure to replace `the-provided-user-token` with your API key.
+
+<aside class="notice">
+You must replace <code>the-provided-user-token</code> with your personal API key.
+</aside>
 
 # Fill Ups
 
