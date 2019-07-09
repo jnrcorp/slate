@@ -51,10 +51,10 @@ curl -X POST \
 }
 ```
 
-Parameter | Required | Description
---------- | -------- | -----------
-email | yes | User's email address
-password | yes | User's Password
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+email | String | Yes | User's email address
+password | String | Yes | User's Password
 
 > A successful response will look like this:
 
@@ -80,13 +80,13 @@ password | yes | User's Password
 
 ### Response Body
 
-Variable | Type | Nullable | Description
+Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
-userId | Integer | No | A unique identifier for use with Google Analytics
-userToken | String | No | A very long unique session tokenize
-vehicleId | Integer | No | The default vehicle for this user
-fullName | String | Yes | The user's full name if they provided it
-removeAds | Boolean | No | Whether the user has removed ads in the app
+userId | Integer | Yes | A unique identifier for use with Google Analytics
+userToken | String | Yes | A very long unique session tokenize
+vehicleId | Integer | Yes | The default vehicle for this user
+fullName | String | No | The user's full name if they provided it
+removeAds | Boolean | Yes | Whether the user has removed ads in the app
 
 > This endpoint performs a login with the username and password
 
@@ -112,11 +112,11 @@ This endpoint retrieves user data.
 
 ### Request Body
 
-Parameter | Required | Description
---------- | -------- | -----------
-email | yes | User's email address
-name | yes | The full name of the user
-token | yes | The Google JWT proving
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+email | String | Yes | User's email address
+name | String | Yes | The full name of the user
+token | String | Yes | The Google JWT proving
 
 ### Response Body
 
@@ -142,13 +142,13 @@ token | yes | The Google JWT proving
 }
 ```
 
-Variable | Type | Nullable | Description
+Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
-userId | Integer | No | A unique identifier for use with Google Analytics
-userToken | String | No | A very long unique session tokenize
-vehicleId | Integer | No | The default vehicle for this user
-fullName | String | No | The user's full name
-removeAds | Boolean | No | Whether the user has removed ads in the app
+userId | Integer | Yes | A unique identifier for use with Google Analytics
+userToken | String | Yes | A very long unique session tokenize
+vehicleId | Integer | Yes | The default vehicle for this user
+fullName | String | Yes | The user's full name
+removeAds | Boolean | Yes | Whether the user has removed ads in the app
 
 ## Create User
 
@@ -178,14 +178,14 @@ curl -X POST \
 }
 ```
 
-Parameter | Required | Description
---------- | -------- | -----------
-email | yes | User's email address
-password0 | yes | User's Password
-password1 | yes | User's Password Confirmed
-name | yes | User's Full Name
-captcha | yes | The token provided by the captcha response
-source | yes | ENUM: `website` or `android` (to indcate which private captcha key should be used)
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+email | String | Yes | User's email address
+password0 | String | Yes | User's Password
+password1 | String | Yes | User's Password Confirmed
+name | String | Yes | User's Full Name
+captcha | String | Yes | The token provided by the captcha response
+source | Enum | Yes | ENUM: `website` or `android` (to indcate which private captcha key should be used)
 
 ### Response Body
 
@@ -203,13 +203,13 @@ source | yes | ENUM: `website` or `android` (to indcate which private captcha ke
 }
 ```
 
-Variable | Type | Nullable | Description
+Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
-userId | Integer | No | A unique identifier for use with Google Analytics
-userToken | String | No | A very long unique session tokenize
-vehicleId | Integer | No | The default vehicle for this user
-fullName | String | No | The user's full name
-removeAds | Boolean | No | Whether the user has removed ads in the app
+userId | Integer | Yes | A unique identifier for use with Google Analytics
+userToken | String | Yes | A very long unique session tokenize
+vehicleId | Integer | Yes | The default vehicle for this user
+fullName | String | Yes | The user's full name
+removeAds | Boolean | Yes | Whether the user has removed ads in the app
 
 > A failed response will return something like this:
 
@@ -219,9 +219,9 @@ removeAds | Boolean | No | Whether the user has removed ads in the app
 }
 ```
 
-Variable | Type | Nullable | Description
+Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
-error | String | No | `Enum` dupe, vehicle, captchaFail, pwmismatch
+error | String | Yes | `Enum` dupe, vehicle, captchaFail, pwmismatch
 
 # Authorization
 
@@ -241,42 +241,43 @@ You must replace <code>the-provided-user-token</code> with your personal API key
 
 ## Insert Fill Up
 
+<aside class="notice">Requires Authorization</aside>
+
 ```shell
-curl "https://mpg.3dx2.com/insertFillUp.php"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "status": true
-}
+curl -XPOST "https://mpg.3dx2.com/api/fillUps.php"
 ```
 
 This inserts a new fill up.
 
 ### HTTP Request
 
-`GET https://mpg.3dx2.com/insertFillUp.php`
+`POST https://mpg.3dx2.com/api/fillUps.php`
 
-### URL Parameters
+### Request Body
 
-Parameter | Description
---------- | -----------
-userid | The logged in User ID
-vehicleId | The ID of the vehicle being filled up
-milesDriven | Miles driven since last fill up
-gasUsed | Amount of gas used to fill tank
-dateFilled | Date of the fill up (e.g. `2019-06-23 14:08:00 -0400`)
-pricePerGal | Price per gallon of gas to the 10 of a cent
-odometer | Odometer reading at fill up
-note | A custom user note
-
-## Update Fill Up
-
-```shell
-curl "https://mpg.3dx2.com/updateFillUp.php"
+```json
+{  
+  "vehicleId":"13201",
+  "distanceDriven":"100.0",
+  "fuelUsed":"10.000",
+  "dateFilled":"2019-07-08 21:31:00 -0400",
+  "pricePer":"1.249",
+  "odometer":"32",
+  "note":"Welcome"
+}
 ```
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+vehicleId | Integer | Yes | The ID of the vehicle being filled up
+milesDriven | Double | Yes | Miles driven since last fill up
+gasUsed | Double | Yes | Amount of gas used to fill tank
+dateFilled | String | Yes | Date of the fill up (e.g. `2019-06-23 14:08:00 -0400`)
+pricePerGal | Double | No | Price per gallon of gas to the 10 of a cent
+odometer | Double | No | Odometer reading at fill up
+note | String | No | A custom user note
+
+### Response Body
 
 > The above command returns JSON structured like this:
 
@@ -284,33 +285,50 @@ curl "https://mpg.3dx2.com/updateFillUp.php"
 {
   "status": true
 }
+```
+
+
+## Update Fill Up
+
+<aside class="notice">Requires Authorization</aside>
+
+```shell
+curl -XPUT "https://mpg.3dx2.com/api/fillUps.php"
 ```
 
 This updates an existing fill up.
 
 ### HTTP Request
 
-`GET https://mpg.3dx2.com/updateFillUp.php`
+`PUT https://mpg.3dx2.com/api/fillUps.php`
 
-### URL Parameters
+### Request Body
 
-Parameter | Description
---------- | -----------
-fillupid | The ID of the fill up being updated
-userid | The logged in User ID
-vehicleId | The ID of the vehicle being filled up
-miles | Miles driven since last fill up
-gallons | Amount of gas used to fill tank
-date | Date of the fill up (e.g. `2019-06-23 14:08:00 -0400`)
-price | Price per gallon of gas to the 10 of a cent
-odometer | Odometer reading at fill up
-note | A custom user note
-
-## Delete a Fill Up
-
-```shell
-curl "https://mpg.3dx2.com/removeFillUp.php"
+```json
+{  
+  "fillUpId":63117,
+  "vehicleId":"13201",
+  "distanceDriven":"100.0",
+  "fuelUsed":"10.000",
+  "dateFilled":"2019-07-09 00:31:00 -0400",
+  "pricePer":"1.249",
+  "odometer":"32.0",
+  "note":"Welcome"
+}
 ```
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+fillUpId | Integer | Yes | The ID of the fill up being updated
+vehicleId | Integer | Yes | The ID of the vehicle being filled up
+miles | Dobule | Yes | Miles driven since last fill up
+gallons | Double | Yes | Amount of gas used to fill tank
+date | String | Yes | Date of the fill up (e.g. `2019-06-23 14:08:00 -0400`)
+price | Double | No | Price per gallon of gas to the 10 of a cent
+odometer | Double | No | Odometer reading at fill up
+note | String | No | A custom user note
+
+### Response Body
 
 > The above command returns JSON structured like this:
 
@@ -320,24 +338,64 @@ curl "https://mpg.3dx2.com/removeFillUp.php"
 }
 ```
 
+## Delete a Fill Up
+
+<aside class="notice">Requires Authorization</aside>
+
+```shell
+curl -XDELETE "https://mpg.3dx2.com/api/fillUps.php"
+```
+
 This removes an existing fill up.
 
-### HTTP Request
+### Request Body
 
-`GET https://mpg.3dx2.com/removeFillUp.php`
+`DELETE https://mpg.3dx2.com/removeFillUp.php`
 
-### URL Parameters
+```json
+{  
+ "fillUpId":63021
+}
+```
 
-Parameter | Description
---------- | -----------
-fillupid | The ID of the fill up being updated
-userid | The logged in User ID
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+fillUpId | Integer | Yes | The ID of the fill up being updated
+
+### Response Body
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status": true
+}
+```
 
 ## Get Fillups
 
+<aside class="notice">Requires Authorization</aside>
+
 ```shell
-curl "https://mpg.3dx2.com/selectAllFillUps.php" -H "Accept: application/json"
+curl -XGET "https://mpg.3dx2.com/api/fillUps.php" -H "Accept: application/json"
 ```
+
+This provides all fill ups.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/api/fillUps.php`
+
+### URL Parameters
+
+Parameter | Type | Reqired | Description
+--------- | ---- | ------- | -----------
+ascdesc | Enum | Yes | Enum - `asc` or `desc`
+vehicleId | Integer | No | If provided, returns all fill ups for that vehicle
+fillUpId | Integer | No | If provided, returns only that fill up
+mostRecent | Boolean | No | If provided, returns only the most recent fill up
+
+### Response Body
 
 > The above command returns JSON structured like this:
 
@@ -366,98 +424,45 @@ curl "https://mpg.3dx2.com/selectAllFillUps.php" -H "Accept: application/json"
 ]
 ```
 
-This provides all fill ups.
+# Maintainence
 
-### HTTP Request
+## Insert Automobile Maintenance Event
 
-`GET https://mpg.3dx2.com/selectAllFillUps.php`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userid | The logged in User ID
-ascdesc | Enum - `asc` or `desc`
-vehicleid | The system ID for the vehicle
-
-## Get Fillups for All Vehicles
+<aside class="notice">Requires Authorization</aside>
 
 ```shell
-curl "https://mpg.3dx2.com/selectAllFillUpsAllVehicles.php" -H "Accept: application/json"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "vehicleid": 1,
-    "miles": "232.0",
-    "gallons": "11.000",
-    "fill_up_date": "2011-04-16 00:00:00",
-    "id": 244,
-    "price_per_gal": null,
-    "odometer": null,
-    "note": null,
-    "fill_up_date_epoch": 1302937200
-  }
-]
+curl -XPOST "https://mpg.3dx2.com/api/maintenances.php" -H "Accept: application/json"
 ```
 
 This provides all fill ups for all vehicles in an account.
 
-### HTTP Request
+### Request Body
 
-`GET https://mpg.3dx2.com/selectAllFillUpsAllVehicles.php`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userid | The logged in User ID
-ascdesc | Enum - `asc` or `desc`
-
-## Get Most Recent Fillup
-
-```shell
-curl "https://mpg.3dx2.com/selectMostRecentFillUp.php?userid=1000000001" -H "Accept: application/json"
-```
-
-> The above command returns JSON structured like this:
+`POST https://mpg.3dx2.com/api/maintenances.php`
 
 ```json
 {  
-   "miles":"315.0",
-   "gallons":"10.098",
-   "fill_up_date":"2019-06-23 20:29:59",
-   "id":62784,
-   "price_per_gal":"2.639",
-   "odometer":"69393.0",
-   "note":null,
-   "fill_up_date_epoch":1561346999
+  "vehicleId":"13201",
+  "servicePerformed":"Oil Change",
+  "description":"Replaced the oil",
+  "locationPerformed":"Dealer",
+  "odometerReading":"12321.0",
+  "date":"2019-07-08 21:53:00",
+  "cost":"123.14"
 }
 ```
 
-This provides the most recent fill up for a vehicle. If the vehicle ID is not provided, it'll load the default vehicle ID.
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+vehicleId | Integer | Yes | The system ID for the vehicle
+servicePerformed | String | Yes | The type of maintainence completed - `user provided`
+description | String | No | `user provided`
+locationPerformed | String | No | `user provided`
+cost | Double | Yes | The price of the service
+odometerReading | Integer | Yes | odometer mileage at service date
+date | String | Yes | Date in YYYY-MM-dd HH:mm:ss format (2019-06-24 21:23:00)
 
-### HTTP Request
-
-`GET https://mpg.3dx2.com/selectMostRecentFillUp.php`
-
-### URL Parameters
-
-Parameter | Required | Description
---------- | -------- | -----------
-userid | Yes | The logged in User ID
-vehicleid | No | The ID of the vehicle. If not provided, pulls for default vehicle
-
-# Maintainence
-
-## Insert Automobile Maintainence Event
-
-```shell
-curl "https://mpg.3dx2.com/insertService.php" -H "Accept: application/json"
-```
+### Response Body
 
 > The above command returns JSON structured like this:
 
@@ -466,31 +471,44 @@ curl "https://mpg.3dx2.com/insertService.php" -H "Accept: application/json"
   "status":true
 }
 ```
-
-This provides all fill ups for all vehicles in an account.
-
-### HTTP Request
-
-`GET https://mpg.3dx2.com/insertService.php`
-
-### URL Parameters
-
-Parameter | Example | Description
---------- | ------- | -----------
-userid | 101 | The logged in User ID
-vehicleid | 101 | The system ID for the vehicle
-servicePerformed | Oil Change | The type of maintainence completed - `user provided`
-description | Replaced the oil | `user provided`
-locationPerformed | Midas | `user provided`
-cost | Price of the | 123.21
-odometerReading | 31492 | odometer mileage at service date
-date | 2019-06-24 21:23:00 | Date in YYYY-MM-dd HH:mm:ss format
 
 ## Update Automobile Maintainence Event
 
 ```shell
-curl "https://mpg.3dx2.com/updateService.php" -H "Accept: application/json"
+curl -XPUT "https://mpg.3dx2.com/api/maintenances.php" -H "Accept: application/json"
 ```
+
+This provides all fill ups for all vehicles in an account.
+
+### Request Body
+
+`PUT https://mpg.3dx2.com/api/maintenances.php`
+
+```json
+{  
+  "serviceId":4244,
+  "vehicleId":"13201",
+  "servicePerformed":"Oil Change",
+  "description":"Replaced the oil",
+  "locationPerformed":"Dealer",
+  "odometerReading":"12321.0",
+  "date":"2019-07-08 03:00:00",
+  "cost":"123.14"
+}
+```
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+serviceId | Integer | Yes | The system ID of the service
+vehicleId | Inteer | Yes | The system ID for the vehicle
+servicePerformed | String | Yes | The type of maintainence completed - `user provided`
+description | String | Yes | `user provided`
+locationPerformed | String | No | `user provided`
+cost | Double | Yes | 123.21
+odometerReading | Double | Yes | odometer mileage at service date
+date | String | Yes | Date in YYYY-MM-dd HH:mm:ss format (2019-06-24 21:23:00)
+
+### Response Body
 
 > The above command returns JSON structured like this:
 
@@ -499,32 +517,31 @@ curl "https://mpg.3dx2.com/updateService.php" -H "Accept: application/json"
   "status":true
 }
 ```
-
-This provides all fill ups for all vehicles in an account.
-
-### HTTP Request
-
-`GET https://mpg.3dx2.com/updateService.php`
-
-### URL Parameters
-
-Parameter | Example | Description
---------- | ------- | -----------
-userid | 101 | The logged in User ID
-vehicleid | 101 | The system ID for the vehicle
-serviceId | 101 | The system ID of the service
-servicePerformed | Oil Change | The type of maintainence completed - `user provided`
-description | Replaced the oil | `user provided`
-locationPerformed | Midas | `user provided`
-cost | Price of the | 123.21
-odometerReading | 31492 | odometer mileage at service date
-date | 2019-06-24 21:23:00 | Date in YYYY-MM-dd HH:mm:ss format
 
 ## Delete Automobile Maintainence Event
 
 ```shell
-curl "https://mpg.3dx2.com/deleteService.php" -H "Accept: application/json"
+curl -XDELETE "https://mpg.3dx2.com/api/maintenances.php" -H "Accept: application/json"
 ```
+
+This provides all fill ups for all vehicles in an account.
+
+### Request Body
+
+`DELETE https://mpg.3dx2.com/api/maintenances.php`
+
+```json
+{  
+  "serviceId":4244
+}
+```
+
+Variable | Type | Required | Description
+-------- | ---- | -------- | -----------
+serviceId | Integer | Yes | The system ID of the service
+vehicleId | Integer | No | If provided, without the serviceId it will remove all maintenance for the vehicle.
+
+### Response Body
 
 > The above command returns JSON structured like this:
 
@@ -533,52 +550,28 @@ curl "https://mpg.3dx2.com/deleteService.php" -H "Accept: application/json"
   "status":true
 }
 ```
-
-This provides all fill ups for all vehicles in an account.
-
-### HTTP Request
-
-`GET https://mpg.3dx2.com/deleteService.php`
-
-### URL Parameters
-
-Parameter | Example | Description
---------- | ------- | -----------
-userid | 101 | The logged in User ID
-serviceId | 101 | The system ID of the service
-
-## Delete All Automobile Maintainence Event
-
-```shell
-curl "https://mpg.3dx2.com/deleteServices.php" -H "Accept: application/json"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "status":true
-}
-```
-
-This provides all fill ups for all vehicles in an account.
-
-### HTTP Request
-
-`GET https://mpg.3dx2.com/deleteServices.php`
-
-### URL Parameters
-
-Parameter | Example | Description
---------- | ------- | -----------
-userid | 101 | The logged in User ID
-vehicleid | 101 | The system ID for the vehicle
 
 ## Get Maintainence for Specifc Vehicle
 
 ```shell
-curl "https://mpg.3dx2.com/selectAllServices.php" -H "Accept: application/json"
+curl -XGET "https://mpg.3dx2.com/api/maintenances.php" -H "Accept: application/json"
 ```
+
+This provides all fill ups for all vehicles in an account.
+
+### HTTP Request
+
+`GET https://mpg.3dx2.com/api/maintenances.php`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+userid | The logged in User ID
+ascdesc | Enum - `asc` or `desc`
+vehicleid | Vehicle ID
+
+### Response Body
 
 > The above command returns JSON structured like this:
 
@@ -597,19 +590,10 @@ curl "https://mpg.3dx2.com/selectAllServices.php" -H "Accept: application/json"
 ]
 ```
 
-This provides all fill ups for all vehicles in an account.
-
-### HTTP Request
-
-`GET https://mpg.3dx2.com/selectAllServices.php`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-userid | The logged in User ID
-ascdesc | Enum - `asc` or `desc`
-vehicleid | Vehicle ID
+Variable | Type | Required | Description
+-------- | ---- | -------- | -----------
+id | Integer | Yes | The system ID of the service
+vehicleId | Integer | No | If provided, without the serviceId it will remove all maintenance for the vehicle.
 
 ## Get Maintainence for All Vehicles
 
