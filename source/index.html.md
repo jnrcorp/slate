@@ -749,7 +749,7 @@ Gets vehicle for a user.
 ### URL Parameters
 
 Variable | Type | Required | Description
---------- | ---- | -------- | -----------
+-------- | ---- | -------- | -----------
 vehicleId | Integer | No | If provided, responds with only this one requested
 
 ### Response Body
@@ -776,68 +776,77 @@ vehicleId | Integer | No | If provided, responds with only this one requested
 ## Get Default Vehicle
 
 ```shell
-curl "https://mpg.3dx2.com/getDefaultVehicle.php?userid=1000000001" -H "Accept: application/json" -H "X-Authorization: $TOKEN"
-```
-
-> The above command returns plain text:
-
-```text
-12883
+curl -XGET "https://mpg.3dx2.com/api/defaultVehicle.php" -H "Accept: application/json" -H "X-Authorization: $TOKEN"
 ```
 
 Gets default vehicle for a user.
 
 ### HTTP Request
 
-`GET https://mpg.3dx2.com/getDefaultVehicle.php`
+`GET https://mpg.3dx2.com/api/defaultVehicle.php`
 
-### URL Parameters
-
-Parameter | Example | Description
---------- | ------- | -----------
-userid | 1000000001 | The logged in User ID
-
-## Set Default Vehicle
-
-```shell
-curl "https://mpg.3dx2.com/setDefaultVehicle.php?userid=1000000001&vehicleid=9326" -H "Accept: application/json" -H "X-Authorization: $TOKEN"
-```
+### Response Body
 
 > The above command returns JSON:
 
 ```json
- {
-   "status":true
- }
+{
+  "id":9326,
+  "name":"Gertrude",
+  "make":"Subaru",
+  "model":"Impreza",
+  "odometer":"69723.0",
+  "next_oil_change":"70140.0",
+  "oil_change_duration":6000,
+  "display_units":"mpg",
+  "default_fill_up_mode":"odometer",
+  "default_vehicle":1
+}
+```
+
+## Set Default Vehicle
+
+```shell
+curl -XPUT "https://mpg.3dx2.com/api/defaultVehicle.php" -H "Accept: application/json" -H "X-Authorization: $TOKEN" -d '{ "vehicleId": 9326 }'
 ```
 
 Sets default vehicle for a user.
 
 ### HTTP Request
 
-`GET https://mpg.3dx2.com/setDefaultVehicle.php`
+`PUT https://mpg.3dx2.com/api/defaultVehicle.php`
 
-### URL Parameters
+### Request Body
 
-Parameter | Example | Description
---------- | ------- | -----------
-userid | 1000000001 | The logged in User ID
-vehicleid | 101 | System ID for vehicle
+Variable | Type | Required | Description
+-------- | ---- | -------- | -----------
+vehicleId | Integer | Yes | The ID to be set as the default vehicle.
+
+### Response Body
+
+> The above command returns JSON:
+
+```json
+ {
+  "id":9326,
+  "name":"Gertrude",
+  "make":"Subaru",
+  "model":"Impreza",
+  "odometer":"69723.0",
+  "next_oil_change":"70140.0",
+  "oil_change_duration":6000,
+  "display_units":"mpg",
+  "default_fill_up_mode":"odometer",
+  "default_vehicle":1
+}
+```
 
 # Android Management
 
 ## Remove Ads
 
 ```shell
-curl "https://mpg.3dx2.com/removeAds.php?userid=1000000001&removeAds=true" -H "Accept: application/json" -H "X-Authorization: $TOKEN"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "status":true
-}
+curl -XPOST "https://mpg.3dx2.com/api/removeAds.php" -H "Accept: application/json" -H "X-Authorization: $TOKEN" -d '{ "removeAds": true }'
 ```
 
 Tracks when a user removes ads.
@@ -852,6 +861,16 @@ Parameter | Description
 --------- | -----------
 userid | The logged in User ID
 removeAds | Boolean
+
+### Response Body
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status":true
+}
+```
 
 ## Insert Error
 
