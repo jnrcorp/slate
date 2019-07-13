@@ -163,7 +163,7 @@ curl -X POST \
 
 ### HTTP Request
 
-`GET https://mpg.3dx2.com/api/userRegister.php`
+`POST https://mpg.3dx2.com/api/userRegister.php`
 
 ### Request Body
 
@@ -223,6 +223,63 @@ Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
 error | String | Yes | `Enum` dupe, vehicle, captchaFail, pwmismatch
 
+## Forgot Password
+
+Sends a password reset email.
+
+```shell
+curl -X POST \
+  -H "Accept: application/json" \
+  --data $BODY_JSON \
+  "https://mpg.3dx2.com/api/forgotPassword.php"
+```
+
+### HTTP Request
+
+`POST https://mpg.3dx2.com/api/forgotPassword.php`
+
+### Request Body
+
+```json
+{
+  "email":"test@email.com",
+  "captcha":"some-token",
+  "source":"android"
+}
+```
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+email | String | Yes | User's email address
+captcha | String | Yes | The token provided by the captcha response
+source | Enum | Yes | ENUM: `website` or `android` (to indcate which private captcha key should be used)
+
+### Response Body
+
+> A successful response will look like this:
+
+```json
+{
+  "data": "success",
+  "message": "Email sent.  The link for password reset will only be valid for 5 minutes."
+}
+```
+
+> A failed response will return something like this:
+
+```json
+{
+  "data": "fail",
+  "error": "Unable to send password reset email."
+}
+```
+
+Variable | Type | Required | Description
+-------- | ---- | -------- | -----------
+data | String | Yes | A unique identifier for use with Google Analytics
+message | String | No | The succuess message to display
+error | String | No | The failure message to display
+
 # Authorization
 
 All API calls after login require the user token provided from the authentication API call to be included in the header, <code>X-Authorization</code>.
@@ -231,7 +288,7 @@ All API calls after login require the user token provided from the authenticatio
 curl "api_endpoint_here" -H "X-Authorization: $TOKEN"
 ```
 
-> Make sure to replace `the-provided-user-token` with your API key.
+> Make sure to set `$TOKEN` with your API key.
 
 <aside class="notice">
 You must replace <code>the-provided-user-token</code> with your personal API key.
@@ -849,18 +906,17 @@ vehicleId | Integer | Yes | The ID to be set as the default vehicle.
 curl -XPOST "https://mpg.3dx2.com/api/removeAds.php" -H "Accept: application/json" -H "X-Authorization: $TOKEN" -d '{ "removeAds": true }'
 ```
 
-Tracks when a user removes ads.
+Tracks when a user toggles ad removal.
 
 ### HTTP Request
 
-`GET https://mpg.3dx2.com/removeAds.php`
+`PUT https://mpg.3dx2.com/api/removeAds.php`
 
-### URL Parameters
+### Request Body
 
-Parameter | Description
---------- | -----------
-userid | The logged in User ID
-removeAds | Boolean
+Variable | Type | Required | Description
+-------- | ---- | -------- | -----------
+removeAds | Boolean | Yes | Whether or not ads are removed
 
 ### Response Body
 
