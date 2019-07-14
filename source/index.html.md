@@ -63,7 +63,7 @@ password | String | Yes | User's Password
   "data": {
     "userId":100001,
     "userToken":"some-large-entropy-response",
-    "vehicleId":1,
+    "defaultVehicleId":1,
     "fullName":"John Doe",
     "removeAds":1
   }
@@ -84,7 +84,7 @@ Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
 userId | Integer | Yes | A unique identifier for use with Google Analytics
 userToken | String | Yes | A very long unique session tokenize
-vehicleId | Integer | Yes | The default vehicle for this user
+defaultVehicleId | Integer | Yes | The default vehicle for this user
 fullName | String | No | The user's full name if they provided it
 removeAds | Boolean | Yes | Whether the user has removed ads in the app
 
@@ -127,7 +127,7 @@ token | String | Yes | The Google JWT proving
   "data": {
     "userId":100001,
     "userToken":"some-large-entropy-response",
-    "vehicleId":1,
+    "defaultVehicleId":1,
     "fullName":"John Doe",
     "removeAds":1
   }
@@ -146,7 +146,7 @@ Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
 userId | Integer | Yes | A unique identifier for use with Google Analytics
 userToken | String | Yes | A very long unique session tokenize
-vehicleId | Integer | Yes | The default vehicle for this user
+defaultVehicleId | Integer | Yes | The default vehicle for this user
 fullName | String | Yes | The user's full name
 removeAds | Boolean | Yes | Whether the user has removed ads in the app
 
@@ -196,7 +196,7 @@ source | Enum | Yes | ENUM: `website` or `android` (to indcate which private cap
   "data": {
     "userId":100001,
     "userToken":"some-large-entropy-response",
-    "vehicleId":1,
+    "defaultVehicleId":1,
     "fullName":"John Doe",
     "removeAds":1
   }
@@ -207,7 +207,7 @@ Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
 userId | Integer | Yes | A unique identifier for use with Google Analytics
 userToken | String | Yes | A very long unique session tokenize
-vehicleId | Integer | Yes | The default vehicle for this user
+defaultVehicleId | Integer | Yes | The default vehicle for this user
 fullName | String | Yes | The user's full name
 removeAds | Boolean | Yes | Whether the user has removed ads in the app
 
