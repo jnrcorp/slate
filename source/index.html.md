@@ -56,6 +56,14 @@ Parameter | Type | Required | Description
 email | String | Yes | User's email address
 password | String | Yes | User's Password
 
+> This endpoint performs a login with the username and password
+
+<aside class="notice">
+You must replace <code>email</code> and <code>password</code> with the appropriate combo.
+</aside>
+
+### Response Body
+
 > A successful response will look like this:
 
 ```json
@@ -78,8 +86,6 @@ password | String | Yes | User's Password
 }
 ```
 
-### Response Body
-
 Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
 userId | Integer | Yes | A unique identifier for use with Google Analytics
@@ -87,12 +93,6 @@ userToken | String | Yes | A very long unique session tokenize
 defaultVehicleId | Integer | Yes | The default vehicle for this user
 fullName | String | No | The user's full name if they provided it
 removeAds | Boolean | Yes | Whether the user has removed ads in the app
-
-> This endpoint performs a login with the username and password
-
-<aside class="notice">
-You must replace <code>email</code> and <code>password</code> with the appropriate combo.
-</aside>
 
 ## Google Sign-In
 
@@ -138,7 +138,7 @@ token | String | Yes | The Google JWT proving
 
 ```json
 {
-  "error": "Invalid Email or Password"
+  "error": "dupe|vehicle|captchaFail|pwmismatch"
 }
 ```
 
