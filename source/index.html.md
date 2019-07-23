@@ -208,7 +208,7 @@ Error Code | Internationalized Code | Message
 ---------- | ---------------------- | -------
 101 | accountCreate.captchaFail | Please complete the captcha prior to submitting.
 102 | accountCreate.pwmismatch | Both passwords must match.
-103 | accountCreate.dupe | An account already exists.
+103 | accountCreate.dupe | The email address provided already has an account, please try resetting the password.
 104 | accountCreate.vehicle | Your account was created, but we were unable to create a default vehicle. Please do so manually.
 105 | accountCreate.invalidGoogleToken | Invalid Google Token.
 
@@ -293,7 +293,7 @@ Error Code | Internationalized Code | Message
 ---------- | ---------------------- | -------
 101 | accountCreate.captchaFail | Please complete the captcha prior to submitting.
 102 | accountCreate.pwmismatch | Both passwords must match.
-103 | accountCreate.dupe | An account already exists.
+103 | accountCreate.dupe | The email address provided already has an account, please try resetting the password.
 104 | accountCreate.vehicle | Your account was created, but we were unable to create a default vehicle. Please do so manually.
 
 ## Forgot Password
