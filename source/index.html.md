@@ -17,6 +17,40 @@ search: true
 
 Welcome to the MPG Tracker API!
 
+# Standard Response Structure
+
+See the example to the right.
+
+> All responses follow the same root JSON structure:
+
+```json
+{
+  "status": boolean,
+  "data": Object, // This is where a success response body will be placed
+  "errors": [{
+    "code": number,
+    "i18n": string,
+    "message": string
+  }]
+}
+```
+
+`Root`
+
+Variable | Type | Required | Description
+--------- | ---- | -------- | -----------
+status | boolean | Yes | If the request succeded
+data | Object | No | The data provided by the specific call
+errors | Array of `Error` | No | Array of error objects
+
+`Error`
+
+Variable | Type | Required | Description
+--------- | ---- | -------- | -----------
+code | number | Yes | A code specific to the failure
+i18n | string | A key used to look up the response in another language
+message | string | Yes | User legible failure message
+
 # Authentication
 
 THere are 3 ways to gain access to an account within MPG Tracker:
@@ -68,6 +102,7 @@ You must replace <code>email</code> and <code>password</code> with the appropria
 
 ```json
 {
+  "status":true,
   "data": {
     "userId":100001,
     "userToken":"some-large-entropy-response",
@@ -78,11 +113,16 @@ You must replace <code>email</code> and <code>password</code> with the appropria
 }
 ```
 
-> A failed response will look like this:
+> A failed response will respond with a `401` and look like this:
 
 ```json
 {
-  "error": "Invalid Email or Password"
+  "status":false,
+  "errors": [{
+    "message":"Invalid Email or Password",
+    "i18n":"authentication.failed",
+    "code":401
+  }]
 }
 ```
 
@@ -93,6 +133,12 @@ userToken | String | Yes | A very long unique session tokenize
 defaultVehicleId | Integer | Yes | The default vehicle for this user
 fullName | String | No | The user's full name if they provided it
 removeAds | Boolean | Yes | Whether the user has removed ads in the app
+
+Failure Codes
+
+Error Code | Internationalized Code | Message
+---------- | ---------------------- | -------
+101 | authentication.failed | Invalid Email or Password.
 
 ## Google Sign-In
 
@@ -124,6 +170,7 @@ token | String | Yes | The Google JWT proving
 
 ```json
 {
+  "status": true,
   "data": {
     "userId":100001,
     "userToken":"some-large-entropy-response",
@@ -138,7 +185,12 @@ token | String | Yes | The Google JWT proving
 
 ```json
 {
-  "error": "dupe|vehicle|captchaFail|pwmismatch"
+  "status": false,
+  "errors": [{
+    "code": 104,
+    "i18n": "accountCreate.captchaFail",
+    "message": "Please complete the captcha prior to submitting."
+  }]
 }
 ```
 
@@ -149,6 +201,16 @@ userToken | String | Yes | A very long unique session tokenize
 defaultVehicleId | Integer | Yes | The default vehicle for this user
 fullName | String | Yes | The user's full name
 removeAds | Boolean | Yes | Whether the user has removed ads in the app
+
+Failure Codes
+
+Error Code | Internationalized Code | Message
+---------- | ---------------------- | -------
+101 | accountCreate.captchaFail | Please complete the captcha prior to submitting.
+102 | accountCreate.pwmismatch | Both passwords must match.
+103 | accountCreate.dupe | An account already exists.
+104 | accountCreate.vehicle | Your account was created, but we were unable to create a default vehicle. Please do so manually.
+105 | accountCreate.invalidGoogleToken | Invalid Google Token.
 
 ## Create User
 
@@ -193,6 +255,7 @@ source | Enum | Yes | ENUM: `website` or `android` (to indcate which private cap
 
 ```json
 {
+  "status": true,
   "data": {
     "userId":100001,
     "userToken":"some-large-entropy-response",
@@ -215,13 +278,23 @@ removeAds | Boolean | Yes | Whether the user has removed ads in the app
 
 ```json
 {
-  "error": "dupe|vehicle|captchaFail|pwmismatch"
+  "status": false,
+  "errors": [{
+    "code": 104,
+    "i18n": "accountCreate.captchaFail",
+    "message": "Please complete the captcha prior to submitting."
+  }]
 }
 ```
 
-Variable | Type | Required | Description
--------- | ---- | -------- | -----------
-error | String | Yes | `Enum` dupe, vehicle, captchaFail, pwmismatch
+Failure Codes
+
+Error Code | Internationalized Code | Message
+---------- | ---------------------- | -------
+101 | accountCreate.captchaFail | Please complete the captcha prior to submitting.
+102 | accountCreate.pwmismatch | Both passwords must match.
+103 | accountCreate.dupe | An account already exists.
+104 | accountCreate.vehicle | Your account was created, but we were unable to create a default vehicle. Please do so manually.
 
 ## Forgot Password
 
@@ -260,8 +333,10 @@ source | Enum | Yes | ENUM: `website` or `android` (to indcate which private cap
 
 ```json
 {
-  "data": "success",
-  "message": "Email sent.  The link for password reset will only be valid for 5 minutes."
+  "status": true,
+  "data": {
+    "message": "Email sent.  The link for password reset will only be valid for 5 minutes."
+  }
 }
 ```
 
@@ -269,8 +344,12 @@ source | Enum | Yes | ENUM: `website` or `android` (to indcate which private cap
 
 ```json
 {
-  "data": "fail",
-  "error": "Unable to send password reset email."
+  "status": false,
+  "errors": [{
+    "code": 102,
+    "i18n": "resetPassword.emailFailed",
+    "message": "Unable to send password reset email."
+  }]
 }
 ```
 
@@ -279,6 +358,13 @@ Variable | Type | Required | Description
 data | String | Yes | A unique identifier for use with Google Analytics
 message | String | No | The succuess message to display
 error | String | No | The failure message to display
+
+Failure Codes
+
+Error Code | Internationalized Code | Message
+---------- | ---------------------- | -------
+101 | resetPassword.captchaFail | Please complete the captcha prior to submitting.
+102 | resetPassowrd.emailFailed | Unable to send password reset email.
 
 # Authorization
 
