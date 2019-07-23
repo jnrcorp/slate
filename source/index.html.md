@@ -368,7 +368,7 @@ Error Code | Internationalized Code | Message
 
 # Authorization
 
-All API calls after login require the user token provided from the authentication API call to be included in the header, <code>X-Authorization</code>.
+All API calls after login require the user token provided from the authentication API call to be included in the header, <code>X-Authorization</code>. Alternatively, you can pass this as a cookie in the same format.
 
 ```shell
 curl "api_endpoint_here" -H "X-Authorization: $TOKEN"
