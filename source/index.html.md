@@ -536,7 +536,7 @@ Parameter | Type | Reqired | Description
 ascdesc | Enum | Yes | Enum - `asc` or `desc`
 vehicleId | Integer | No | If provided, returns all fill ups for that vehicle
 fillUpId | Integer | No | If provided, returns only that fill up
-mostRecent | Boolean | No | If provided, returns only the most recent fill up
+mostRecent | Boolean | No | Used in conjunction with `vehicleId` only. If set to true, returns only the most recent fill up.
 
 ### Response Body
 
@@ -591,7 +591,9 @@ This provides all fill ups for all vehicles in an account.
   "locationPerformed":"Dealer",
   "odometerReading":"12321.0",
   "date":"2019-07-08 21:53:00",
-  "cost":"123.14"
+  "costParts":"21.95",
+  "costLabor":"38.04",
+  "costTotal":"123.14"
 }
 ```
 
@@ -601,7 +603,9 @@ vehicleId | Integer | Yes | The system ID for the vehicle
 servicePerformed | String | Yes | The type of maintainence completed - `user provided`
 description | String | No | `user provided`
 locationPerformed | String | No | `user provided`
-cost | Double | Yes | The price of the service
+costParts | Double | Yes | The price of the service parts
+costLabor | Double | Yes | The price of the service labor
+costTotal | Double | Yes | The total price of the service, calculated client side
 odometerReading | Integer | Yes | odometer mileage at service date
 date | String | Yes | Date in YYYY-MM-dd HH:mm:ss format (2019-06-24 21:23:00)
 
@@ -636,7 +640,9 @@ This provides all fill ups for all vehicles in an account.
   "locationPerformed":"Dealer",
   "odometerReading":"12321.0",
   "date":"2019-07-08 03:00:00",
-  "cost":"123.14"
+  "costParts":"21.95",
+  "costLabor":"38.04",
+  "costTotal":"59.99"
 }
 ```
 
@@ -647,7 +653,9 @@ vehicleId | Inteer | Yes | The system ID for the vehicle
 servicePerformed | String | Yes | The type of maintainence completed - `user provided`
 description | String | Yes | `user provided`
 locationPerformed | String | No | `user provided`
-cost | Double | Yes | 123.21
+costParts | Double | Yes | The price of the service parts
+costLabor | Double | Yes | The price of the service labor
+costTotal | Double | Yes | The total price of the service, calculated client side
 odometerReading | Double | Yes | odometer mileage at service date
 date | String | Yes | Date in YYYY-MM-dd HH:mm:ss format (2019-06-24 21:23:00)
 
@@ -725,7 +733,9 @@ serviceId | Integer | No | If provided, only that service returned
     "mileage":"12321.0",
     "service_date":"2019-07-08",
     "id":4245,
-    "cost":"123.14",
+    "cost_parts":"21.95",
+    "cost_labor":"38.04",
+    "cost_total":"59.99",
     "location_performed":"Dealer",
     "service_date_epoch":1562569200,
     "description":"Replaced the oil",
@@ -741,10 +751,12 @@ vehicleid | Integer | No | If provided, without the serviceId it will remove all
 service_performed | String | work that was done on the vehicle
 mileage | Double | The odometer at the time the work was done
 service_date | String | Date of the service in format: YYYY-MM-dd
-cost | Double | The price
+cost_parts | Double | Yes | The price of the service parts
+cost_labor | Double | Yes | The price of the service labor
+cost_total | Double | Yes | The total price of the service
 location_performed | String | Where the work was done
 service_date_epoch | Integer | Seconds after epoch for processing
-description| String | Any additional information the user provides
+description | String | Any additional information the user provides
 
 # Vehicle Management
 
