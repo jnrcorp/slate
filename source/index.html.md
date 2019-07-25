@@ -727,7 +727,7 @@ serviceId | Integer | No | If provided, only that service returned
 > The above command returns JSON structured like this:
 
 ```json
-[  
+[
   {  
     "service_performed":"Oil Change",
     "mileage":"12321.0",
