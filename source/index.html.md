@@ -804,7 +804,7 @@ defaultFillUpMode | Enum | Yes | Enum `tripometer` / `odometer`
 {
   "status":"true",
   "data": {
-    "vehicleId":"13239"
+    "vehicleId":13239
   }
 }
 ```
