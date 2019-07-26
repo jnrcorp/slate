@@ -801,9 +801,11 @@ defaultFillUpMode | Enum | Yes | Enum `tripometer` / `odometer`
 > The above command returns JSON structured like this:
 
 ```json
-{  
+{
   "status":"true",
-  "vehicleId":"13239"
+  "data": {
+    "vehicleId":"13239"
+  }
 }
 ```
 
@@ -820,7 +822,7 @@ Updates a vehicle's settings.
 `PUT https://mpg.3dx2.com/api/vehicles.php`
 
 ```json
-{  
+{
   "vehicleId":13239,
   "name":"Test Car 3",
   "make":"Honda",
