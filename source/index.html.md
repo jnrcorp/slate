@@ -449,7 +449,7 @@ This updates an existing fill up.
 
 ```json
 {  
-  "fillUpId":63117,
+  "id":63117,
   "vehicleId":"13201",
   "distanceDriven":"100.0",
   "fuelUsed":"10.000",
@@ -497,13 +497,15 @@ This removes an existing fill up.
 
 ```json
 {  
- "fillUpId":63021
+ "id":63021,
+ "deleted":true
 }
 ```
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
-fillUpId | Integer | Yes | The ID of the fill up being updated
+id | Integer | Yes | The ID of the fill up being updated
+deleted | Boolean | Yes | Whether the fill up should be deleted or undeleted
 
 ### Response Body
 
@@ -683,7 +685,8 @@ This provides all fill ups for all vehicles in an account.
 
 ```json
 {  
-  "serviceId":4244
+  "serviceId":4244,
+  "deleted":true
 }
 ```
 
@@ -691,6 +694,7 @@ Variable | Type | Required | Description
 -------- | ---- | -------- | -----------
 serviceId | Integer | Yes | The system ID of the service
 vehicleId | Integer | No | If provided, without the serviceId it will remove all maintenance for the vehicle.
+deleted | Boolean | Yes | Determines deletion or undeletion
 
 ### Response Body
 
@@ -872,7 +876,7 @@ Deletes a vehicle.
 ```json
 {  
   "vehicleId":13239,
-  "deleted":1
+  "deleted":true
 }
 ```
 
