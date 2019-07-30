@@ -380,6 +380,81 @@ curl "api_endpoint_here" -H "X-Authorization: $TOKEN"
 You must replace <code>the-provided-user-token</code> with your personal API key.
 </aside>
 
+## Verify Authorization is Still Valid
+
+<aside class="notice">Requires Authorization</aside>
+
+```shell
+curl -X POST \
+  -H "Accept: application/json" \
+  --data '{"userToken":"some-entropy"}' \
+  "https://mpg.3dx2.com/api/authenticateValidation.php"
+```
+
+### HTTP Request
+
+`POST https://mpg.3dx2.com/api/authenticateValidation.php`
+
+### Request body
+
+> An example of the request body
+
+```json
+{
+  "userToken": "<some-entropy>"
+}
+```
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+userToken | String | Yes | User's last good token
+
+> This endpoint validates the token is still valid. It must be provided in the header and the body.
+
+### Response Body
+
+> A successful response will look like this:
+
+```json
+{
+  "status":true,
+  "data": {
+    "userId":100001,
+    "userToken":"some-large-entropy-response-possibly-rotating",
+    "defaultVehicleId":1,
+    "fullName":"John Doe",
+    "removeAds":1
+  }
+}
+```
+
+> A failed response will respond with a `401` and look like this:
+
+```json
+{
+  "status":false,
+  "errors": [{
+    "message":"You must login again.",
+    "i18n":"authentication.required",
+    "code":101
+  }]
+}
+```
+
+Variable | Type | Required | Description
+-------- | ---- | -------- | -----------
+userId | Integer | Yes | A unique identifier for use with Google Analytics
+userToken | String | Yes | A very long unique session tokenize
+defaultVehicleId | Integer | Yes | The default vehicle for this user
+fullName | String | No | The user's full name if they provided it
+removeAds | Boolean | Yes | Whether the user has removed ads in the app
+
+Failure Codes
+
+Error Code | Internationalized Code | Message
+---------- | ---------------------- | -------
+101 | authentication.required | You must login again.
+
 # Fill Ups
 
 ## Insert Fill Up
