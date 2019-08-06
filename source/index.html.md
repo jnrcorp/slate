@@ -488,10 +488,10 @@ This inserts a new fill up.
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
 vehicleId | Integer | Yes | The ID of the vehicle being filled up
-milesDriven | Double | Yes | Miles driven since last fill up
-gasUsed | Double | Yes | Amount of gas used to fill tank
+distanceDriven | Double | Yes | Miles driven since last fill up
+fuelUsed | Double | Yes | Amount of gas used to fill tank
 dateFilled | String | Yes | Date of the fill up (e.g. `2019-06-23 14:08:00 -0400`)
-pricePerGal | Double | No | Price per gallon of gas to the 10 of a cent
+pricePer | Double | No | Price per gallon of gas to the 10 of a cent
 odometer | Double | No | Odometer reading at fill up
 note | String | No | A custom user note
 
@@ -537,12 +537,12 @@ This updates an existing fill up.
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
-fillUpId | Integer | Yes | The ID of the fill up being updated
+id | Integer | Yes | The ID of the fill up being updated
 vehicleId | Integer | Yes | The ID of the vehicle being filled up
-miles | Dobule | Yes | Miles driven since last fill up
-gallons | Double | Yes | Amount of gas used to fill tank
-date | String | Yes | Date of the fill up (e.g. `2019-06-23 14:08:00 -0400`)
-price | Double | No | Price per gallon of gas to the 10 of a cent
+distanceDriven | Dobule | Yes | Distance driven since last fill up
+fuelUsed | Double | Yes | Amount of gas used to fill tank
+dateFilled | String | Yes | Date of the fill up (e.g. `2019-06-23 14:08:00 -0400`)
+pricePer | Double | No | Price per gallon of gas to the 10 of a cent
 odometer | Double | No | Odometer reading at fill up
 note | String | No | A custom user note
 
