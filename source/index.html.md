@@ -366,6 +366,138 @@ Error Code | Internationalized Code | Message
 101 | resetPassword.captchaFail | Please complete the captcha prior to submitting.
 102 | resetPassowrd.emailFailed | Unable to send password reset email.
 
+## Load Reset Password Data
+
+Validates the code provided from the reset email to authorize a password reset on an account.
+
+```shell
+curl -X GET \
+  -H "Accept: application/json" \
+  "https://mpg.3dx2.com/api/resetPassword.php?resetcode=$RESET_CODE"
+```
+
+### HTTP Request
+
+`POST https://mpg.3dx2.com/api/resetPassword.php`
+
+### Request Params
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+resetcode | String | Yes | The code provided in the user's email.
+
+### Response Body
+
+> A successful response will look like this:
+
+```json
+{
+  "status": true,
+  "data": {
+    "status": "valid",
+    "email": "user@email.com",
+    "name": "John Doe",
+    "resetCode": "abcdefghijklmnopqrstuvwxyz"
+  }
+}
+```
+
+> A failed response will return something like this:
+
+```json
+{
+  "status": true,
+  "data": {
+    "status": "expired"
+  }
+}
+```
+
+Variable | Type | Required | Description
+-------- | ---- | -------- | -----------
+status | Enum | Yes | The validity of the reset code provided
+email | String | No | User's email address
+name | String | No | User's full name
+resetCode | String | No | The parroted reset code
+
+Status Values
+
+Value | Description
+----- | -----------
+valid | The privded reset code is valid. Additional values provided.
+expired | The provided reset code expired
+invalid | The provided reset code is not valid
+
+## Execute Reset Password
+
+Sends a password reset email.
+
+```shell
+curl -X POST \
+  -H "Accept: application/json" \
+  --data $BODY_JSON \
+  "https://mpg.3dx2.com/api/resetPassword.php"
+```
+
+### HTTP Request
+
+`POST https://mpg.3dx2.com/api/resetPassword.php`
+
+### Request Body
+
+```json
+{
+  "username":"test@email.com",
+  "password0":"password",
+  "password1":"password",
+  "resetcode":"abcdefghijklmnopqrstuvwxyz"
+}
+```
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+username | String | Yes | User's email address
+password0 | String | Yes | User entered password
+password1 | String | Yes | User re-entered password for verification
+resetcode | String | Yes | The original reset code
+
+### Response Body
+
+> A successful response will look like this:
+
+```json
+{
+  "status": true,
+  "data": {
+    "status": "success"
+  }
+}
+```
+
+> A failed response will return something like this:
+
+```json
+{
+  "status": false,
+  "date": {
+    "status": "failed"
+  }
+}
+```
+
+Variable | Type | Required | Description
+-------- | ---- | -------- | -----------
+status | Enum | Yes | Whether the password reset succeeded
+
+Status Codes
+
+Value | Description
+----- | -----------
+success | New password accepted and saved.
+failed | Some database error occurred when saving the password
+expired | The reset code provided expired before the password was accepted
+invalid | The reset code does not exist
+
 # Authorization
 
 All API calls after login require the user token provided from the authentication API call to be included in the header, <code>X-Authorization</code>. Alternatively, you can pass this as a cookie in the same format.
