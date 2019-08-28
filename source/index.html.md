@@ -296,7 +296,7 @@ Error Code | Internationalized Code | Message
 103 | accountCreate.dupe | The email address provided already has an account, please try resetting the password.
 104 | accountCreate.vehicle | Your account was created, but we were unable to create a default vehicle. Please do so manually.
 
-## Forgot Password
+## Request Password Reset Email
 
 Sends a password reset email.
 
@@ -366,19 +366,19 @@ Error Code | Internationalized Code | Message
 101 | resetPassword.captchaFail | Please complete the captcha prior to submitting.
 102 | resetPassowrd.emailFailed | Unable to send password reset email.
 
-## Load Reset Password Data
+## Get Reset Password Data
 
 Validates the code provided from the reset email to authorize a password reset on an account.
 
 ```shell
 curl -X GET \
   -H "Accept: application/json" \
-  "https://mpg.3dx2.com/api/resetPassword.php?resetcode=$RESET_CODE"
+  "https://mpg.3dx2.com/api/forgotPassword.php?resetcode=$RESET_CODE"
 ```
 
 ### HTTP Request
 
-`POST https://mpg.3dx2.com/api/resetPassword.php`
+`GET https://mpg.3dx2.com/api/forgotPassword.php`
 
 ### Request Params
 
@@ -433,15 +433,15 @@ invalid | The provided reset code is not valid
 Sends a password reset email.
 
 ```shell
-curl -X POST \
+curl -X PUT \
   -H "Accept: application/json" \
   --data $BODY_JSON \
-  "https://mpg.3dx2.com/api/resetPassword.php"
+  "https://mpg.3dx2.com/api/forgotPassword.php"
 ```
 
 ### HTTP Request
 
-`POST https://mpg.3dx2.com/api/resetPassword.php`
+`PUT https://mpg.3dx2.com/api/forgotPassword.php`
 
 ### Request Body
 
